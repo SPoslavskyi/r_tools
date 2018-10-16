@@ -39,3 +39,21 @@ res.ftest
 # Compute t-test
 res <- t.test(round ~ group, data = my_data, var.equal = TRUE)
 res
+
+
+my_data <- data.frame( 
+                group = c(rep(c("smp1"), nrow(smp1)),rep(c("smp2"), nrow(smp2))),
+                perim = c(smp1[["Perim."]],  smp2[["Perim."]])
+                )
+
+#Shapiro-Wilk normality test
+with(my_data, shapiro.test(perim[group == "smp1"]))
+with(my_data, shapiro.test(perim[group == "smp2"]))
+
+#F-test to test for homogeneity in variances
+res.ftest <- var.test(perim ~ group, data = my_data)
+res.ftest
+
+# Compute t-test
+res <- t.test(perim ~ group, data = my_data, var.equal = TRUE)
+res
